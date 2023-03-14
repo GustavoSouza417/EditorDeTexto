@@ -1,5 +1,11 @@
-//propriedades do app, das páginas e do menu
-const { app, BrowserWindow, Menu } = require("electron")
+//propriedades do app, das páginas, do menu e de caixas de diálogo
+const { app, BrowserWindow, Menu, dialog } = require("electron")
+
+//cria e escreve arquivos
+const fs = require("fs")
+
+const path = require("path")
+
 var mainWindow = null
 
 
@@ -22,6 +28,9 @@ async function createWindow(){
 
 	//serve para carregar o console js nativo da web
 	mainWindow.webContents.openDevTools()
+
+	//cria um novo arquivo sempre que o apk iniciar
+	createNewFile()
 }
 
 
@@ -32,14 +41,50 @@ var file = {}
 //cria um novo arquivo
 function createNewFile(){
 	file = {
-		name: "nomeArquivo.txt",
+		name: "novo-arquivo.txt",
 		content: "",
 		saved: false,
 		path: app.getPath("documents") + "/nomeArquivo.txt"
 	}
 
 	//nome do evento e valor que o daremos
-	mainWindow.webContents.send("setFile", file)
+	mainWindow.webContents.send("set-file", file)
+}
+
+function writeFile(filePath){
+	try{
+		// console.log("\n\nValor de FS: " + JSON.stringify(fs) + "\n\n")
+
+		/*fs.writeFile(filePath.file.content.function(error){
+			/*if(error) throw error
+
+			file.path  = filePath
+			file.saved = true
+
+			//obtém o nome que o usuário deu para o arquivo
+			file.name  = path.basename(filePath)
+
+			console.log(file)
+		})*/
+	}
+	catch(error){
+		console.log("Ocorreu um erro durante o processo: " + error)
+	}
+}
+
+async function saveFileAs(){
+	//exibe os arquivos do computador
+	let dialogFile = await dialog.showSaveDialog({
+		defaultPath: file.path
+	})
+
+	//verifica se o usuário fechou a tela sem salvar nenhum arquivo e, nesse caso, cancela a operação
+	if(dialogFile.canceled){
+		return false
+	}
+
+	//salva o arquivo
+	writeFile(dialogFile.filePath)
 }
 
 
@@ -66,7 +111,11 @@ const templateMenu = [
 			},
 
 			{
-				label: "Salvar como"
+				label: "Salvar como",
+
+				click(){
+					saveFileAs()
+				}
 			},
 
 			{

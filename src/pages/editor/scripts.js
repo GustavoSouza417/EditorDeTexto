@@ -1,5 +1,9 @@
-const { ipcRender } = require("electron")
+const { ipcRenderer } = require("electron")
 
-ipcRender.on("setFile", function(event, data){
-	console.log(data)
+const textarea = document.querySelector("#text")
+const title    = document.querySelector("#title")
+
+ipcRenderer.on("set-file", function(event, data){
+	textarea.value = data.content
+	title.innerHTML = data.name + " | Dev Editor"
 })
