@@ -1,4 +1,4 @@
-//propriedades do app, das páginas, do menu e de caixas de diálogo
+//propriedades do app, das janelas, do menu e de caixas de diálogo
 const { app, BrowserWindow, Menu, dialog } = require("electron")
 
 //cria e escreve arquivos
@@ -35,8 +35,9 @@ async function createWindow(){
 
 
 
-//funções gerais
 var file = {}
+
+//funções gerais
 
 //cria um novo arquivo
 function createNewFile(){
@@ -53,19 +54,17 @@ function createNewFile(){
 
 function writeFile(filePath){
 	try{
-		// console.log("\n\nValor de FS: " + JSON.stringify(fs) + "\n\n")
+		fs.writeFile(filePath, file.content, function(error){
+			if(error) throw error
 
-		/*fs.writeFile(filePath.file.content.function(error){
-			/*if(error) throw error
-
-			file.path  = filePath
 			file.saved = true
+			file.path  = filePath
 
 			//obtém o nome que o usuário deu para o arquivo
 			file.name  = path.basename(filePath)
 
-			console.log(file)
-		})*/
+			console.log("O que ser isso: " + JSON.stringify(file))
+		})
 	}
 	catch(error){
 		console.log("Ocorreu um erro durante o processo: " + error)
@@ -75,6 +74,7 @@ function writeFile(filePath){
 async function saveFileAs(){
 	//exibe os arquivos do computador
 	let dialogFile = await dialog.showSaveDialog({
+		// title: "Salve aqui os seus arquivos",
 		defaultPath: file.path
 	})
 
