@@ -69,6 +69,7 @@ function writeFile(filePath){
 			file.name  = path.basename(filePath)
 
 			console.log("O que ser isso: " + JSON.stringify(file))
+			mainWindow.webContents.send("set-file", file)
 		})
 	}
 	catch(error){
