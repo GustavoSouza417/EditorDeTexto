@@ -1,5 +1,5 @@
-//propriedades do app, das janelas, do menu e de caixas de diálogo
-const { app, BrowserWindow, Menu, dialog } = require("electron")
+//propriedades do app, das janelas, do menu, de caixas de diálogo, de "envio e ouvimento"
+const { app, BrowserWindow, Menu, dialog, ipcMain } = require("electron")
 
 //cria e escreve arquivos
 const fs = require("fs")
@@ -29,8 +29,13 @@ async function createWindow(){
 	//serve para carregar o console js nativo da web
 	mainWindow.webContents.openDevTools()
 
+
 	//cria um novo arquivo sempre que o apk iniciar
 	createNewFile()
+	
+	ipcMain.on("updateContent", function(event, data){
+		file.content = data
+	})
 }
 
 
@@ -53,8 +58,8 @@ function createNewFile(){
 }
 
 function writeFile(filePath){
-	try{
-		fs.writeFile(filePath, file.content, function(error){
+	try{		
+		fs.writeFile(filePath + ".txt", file.content, function(error){
 			if(error) throw error
 
 			file.saved = true
@@ -95,11 +100,7 @@ const templateMenu = [
 		label: "Arquivo",
 		submenu: [
 			{
-				label: "Novo",
-
-				click(){
-					createNewFile()
-				},
+				label: "Novo", click(){ createNewFile() },
 			},
 
 			{
@@ -111,11 +112,7 @@ const templateMenu = [
 			},
 
 			{
-				label: "Salvar como",
-
-				click(){
-					saveFileAs()
-				}
+				label: "Salvar como", click(){ saveFileAs() }
 			},
 
 			{
