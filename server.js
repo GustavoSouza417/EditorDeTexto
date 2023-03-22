@@ -141,6 +141,8 @@ async function openFile(){
 
 //criação do menu
 const templateMenu = [
+
+	//funções padrões para arquivos
 	{
 		label: "Arquivo",
 		submenu: [
@@ -172,6 +174,53 @@ const templateMenu = [
 				label: "Fechar",
 				//verifica se é Windows ou Mac e executa o comando de cada SO para fechar
 				role: process.platform === "darwin" ? "close" : "quit"
+			}
+		]
+	},
+
+	//comandos padrões de edição de texto
+	{
+		label: "Editar",
+		submenu: [
+			{
+				label: "Desfazer",
+				role: "undo"
+			},
+
+			{
+				label: "Refazer",
+				role: "redo"
+			},
+
+			//separador
+			{
+				type: "separator"
+			},
+
+			{
+				label: "Copiar",
+				role: "copy"
+			},
+
+			{
+				label: "Cortar",
+				role: "cut"
+			},
+
+			{
+				label: "Colar",
+				role: "paste"
+			}
+		]
+	},
+
+	//links externos
+	{
+		label: "Ajuda",
+		submenu: [
+			{
+				label: "YouTube",
+				click() { shell.openExternal("http://www.youtube.com") }
 			}
 		]
 	}
