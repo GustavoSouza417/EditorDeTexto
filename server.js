@@ -69,6 +69,8 @@ function writeFile(filePath){
 			file.name  = path.basename(filePath)
 
 			console.log("O que ser isso: " + JSON.stringify(file))
+
+			//atualiza o nome do arquivo ao utilizar o "Save As"
 			mainWindow.webContents.send("set-file", file)
 		})
 	}
@@ -93,6 +95,14 @@ async function saveFileAs(){
 	writeFile(dialogFile.filePath)
 }
 
+function save(){
+	if(file.saved){
+		return writeFile(file.path)
+	}
+
+	return saveFileAs()
+}
+
 
 
 //criação do menu
@@ -109,7 +119,7 @@ const templateMenu = [
 			},
 
 			{
-				label: "Salvar"
+				label: "Salvar", click(){ save() }
 			},
 
 			{
