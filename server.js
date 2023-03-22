@@ -96,6 +96,7 @@ async function saveFileAs(){
 }
 
 function save(){
+	//verifica se o arquivo já está salvo. Se sim, apenas o sobrescreve, e caso não, executa o "Save As"
 	if(file.saved){
 		return writeFile(file.path)
 	}
@@ -103,6 +104,39 @@ function save(){
 	return saveFileAs()
 }
 
+function readFile(filePath){
+	try{
+		return fs.readFileSync(filePath, "utf8")
+	}
+	catch(error){
+		console.log("Erro no readFile: " + error)
+		return ""
+	}
+}
+
+async function openFile(){
+	let dialogFile = await dialog.showOpenDialog({
+		defaultPath: file.path
+	})
+
+	//o "dialog.showSaveDialog" nos traz uma string, mas o "dialog.showOpenDialog" retorna um array
+	console.log(dialogFile)
+
+	//verificar cancelamento
+	if(dialogFile.canceled) return false
+
+	//abrir o arquivo
+	file = {
+		name: path.basename(dialogFile.filePaths[0]),
+		content: readFile(dialogFile.filePaths[0]),
+		saved: true,
+		path: dialogFile.filePaths[0]
+	}
+
+	mainWindow.webContents.send("set-file", file)
+
+	console.log(file)
+}
 
 
 //criação do menu
@@ -115,7 +149,7 @@ const templateMenu = [
 			},
 
 			{
-				label: "Abrir"
+				label: "Abrir", click() { openFile() }
 			},
 
 			{
