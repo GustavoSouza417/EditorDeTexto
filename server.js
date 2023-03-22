@@ -1,5 +1,5 @@
 //propriedades do app, das janelas, do menu, de caixas de diálogo, de "envio e ouvimento"
-const { app, BrowserWindow, Menu, dialog, ipcMain } = require("electron")
+const { app, BrowserWindow, Menu, dialog, ipcMain, shell } = require("electron")
 
 //cria e escreve arquivos
 const fs = require("fs")
@@ -214,7 +214,7 @@ const templateMenu = [
 		]
 	},
 
-	//links externos
+	//implementação de links externos
 	{
 		label: "Ajuda",
 		submenu: [
