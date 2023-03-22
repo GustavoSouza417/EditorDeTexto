@@ -145,19 +145,27 @@ const templateMenu = [
 		label: "Arquivo",
 		submenu: [
 			{
-				label: "Novo", click(){ createNewFile() },
+				label: "Novo", 
+				accelerator: "CmdOrCtrl+N",
+				click(){ createNewFile() },
 			},
 
 			{
-				label: "Abrir", click() { openFile() }
+				label: "Abrir", 
+				accelerator: "CmdOrCtrl+O",
+				click() { openFile() }
 			},
 
 			{
-				label: "Salvar", click(){ save() }
+				label: "Salvar", 
+				accelerator: "CmdOrCtrl+S",
+				click(){ save() }
 			},
 
 			{
-				label: "Salvar como", click(){ saveFileAs() }
+				label: "Salvar como",
+				accelerator: "CmdOrCtrl+Shift+S",
+				click(){ saveFileAs() }
 			},
 
 			{
