@@ -1,2 +1,2 @@
-# editorDeTexto
- Primeiro projeto desktop com o framework Electron
+# Editor de Texto
+Simples editor de texto desktop criado com o framework Electron.js
